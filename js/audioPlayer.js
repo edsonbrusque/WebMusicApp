@@ -1,5 +1,9 @@
 import { formatAudioTime, linearToDb, dbToLinear, MIN_DB, MAX_DB } from './utils.js';
 
+/**
+ * Initializes the Audio Player UI, event listeners, and state management.
+ * Handles playlist, playback, speed, volume, and keyboard shortcuts.
+ */
 export function initAudioPlayer() {
     console.log("Initialising Audio Player...");
 
@@ -52,6 +56,9 @@ export function initAudioPlayer() {
     const LOCAL_STORAGE_SILENCE_KEY = 'audioPlayerSilenceInterval';
 
     // --- Playlist Management ---
+    /**
+     * Render the playlist UI based on the current playlist state.
+     */
     function renderPlaylist() {
         playlistElement.innerHTML = '';
         if (playlist.length === 0) {
@@ -112,6 +119,11 @@ export function initAudioPlayer() {
         updateCombinedTrackInfo();
     }
 
+    /**
+     * Parse a filename for a BPM value (e.g., "120BPM").
+     * @param {string} filename
+     * @returns {number|undefined}
+     */
     function parseBPMFromName(filename) {
         const bpmRegex = /(\d+)BPM/i; // Matches "100BPM", case insensitive
         const match = filename.match(bpmRegex);
@@ -122,6 +134,10 @@ export function initAudioPlayer() {
         return undefined;
     }
 
+    /**
+     * Add new tracks to the playlist from file input.
+     * @param {Event} event
+     */
     function handleFileSelect(event) {
         const files = Array.from(event.target.files);
         const newTracks = files.map(file => {
@@ -161,6 +177,10 @@ export function initAudioPlayer() {
         fileInput.value = ''; // Reset file input
     }
 
+    /**
+     * Remove a track from the playlist by index.
+     * @param {number} index
+     */
     function removeTrack(index) {
         if (index < 0 || index >= playlist.length) return;
         URL.revokeObjectURL(playlist[index].url); // Clean up
@@ -180,6 +200,11 @@ export function initAudioPlayer() {
         renderPlaylist();
     }
 
+    /**
+     * Move a track up or down in the playlist.
+     * @param {number} index
+     * @param {number} direction -1 for up, 1 for down
+     */
     function moveTrack(index, direction) { // direction: -1 for up, 1 for down
         if (index < 0 || index >= playlist.length) return;
         const newIndex = index + direction;
@@ -195,6 +220,9 @@ export function initAudioPlayer() {
         renderPlaylist();
     }
 
+    /**
+     * Clear the entire playlist and reset the player.
+     */
     function clearPlaylist() {
         stopPlayback(true); // Full stop, clear display, reset speed slider to default multiplier
 
@@ -208,6 +236,11 @@ export function initAudioPlayer() {
     }
 
     // --- Playback Logic ---
+    /**
+     * Load a track by index and optionally start playback.
+     * @param {number} index
+     * @param {boolean} [shouldPlay=false]
+     */
     function loadTrack(index, shouldPlay = false) {
         clearSilenceTimeout(); // Always clear previous silence timer when attempting to load/change track.
 
@@ -287,6 +320,10 @@ export function initAudioPlayer() {
         silenceCountdownIntervalId = setInterval(updateCountdown, 100); // Update every 100ms
     }
 
+    /**
+     * Load and play a track by index.
+     * @param {number} index
+     */
     function loadAndPlayTrack(index) {
         loadTrack(index, true);
     }
@@ -365,6 +402,11 @@ export function initAudioPlayer() {
         }
     }
 
+    /**
+     * Set the audio volume and update the UI.
+     * @param {number} linearValue
+     * @param {boolean} [updateSlider=true]
+     */
     function setAudioVolume(linearValue, updateSlider = true) {
         const clampedLinear = Math.max(0, Math.min(1, linearValue));
         audioElement.volume = clampedLinear;
@@ -379,6 +421,11 @@ export function initAudioPlayer() {
         }
     }
 
+    /**
+     * Configure and apply playback speed for a track.
+     * @param {object|null} track
+     * @param {number} [newSpeedValue]
+     */
     function configureAndApplySpeed(track, newSpeedValue) {
         if (!track) { // Initial setup or no track loaded
             currentSpeedMode = 'multiplier';
@@ -456,12 +503,18 @@ export function initAudioPlayer() {
     }
 
     // --- UI Updates ---
+    /**
+     * Update the play/pause button UI.
+     */
     function updatePlayPauseButton() {
         isPlaying = !audioElement.paused;
         playPauseBtn.textContent = isPlaying ? PAUSE_ICON : PLAY_ICON;
         playPauseBtn.title = isPlaying ? "Pause (C)" : "Play (C)";
     }
 
+    /**
+     * Update the combined track info display.
+     */
     function updateCombinedTrackInfo() {
         const currentNum = currentTrackIndex === -1 ? 0 : currentTrackIndex + 1;
         const totalTracks = playlist.length;
@@ -481,6 +534,9 @@ export function initAudioPlayer() {
         // If silenceCountdownIntervalId is active, its interval function handles the display.
     }
 
+    /**
+     * Update the progress bar and current time display.
+     */
     function updateProgress() {
         if (audioElement.duration) {
             progressBar.value = (audioElement.currentTime / audioElement.duration) * 100;

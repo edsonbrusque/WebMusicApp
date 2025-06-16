@@ -1,5 +1,9 @@
 import { createAudioContext } from './utils.js';
 
+/**
+ * Initializes the Metronome UI, event listeners, and state management.
+ * Handles BPM, advanced mode, audio scheduling, and keyboard shortcuts.
+ */
 export function initMetronome() {
     console.log("Initialising Metronome...");
     // --- Constants & Variables ---
@@ -56,6 +60,10 @@ export function initMetronome() {
     const progressDisplay = document.getElementById('metronome-progress-display');
 
     // --- Audio Functions ---
+    /**
+     * Ensure the AudioContext is created and running.
+     * @returns {Promise<boolean>} True if context is running.
+     */
     async function ensureAudioContext() {
         if (!audioContext) {
             try {
@@ -83,6 +91,10 @@ export function initMetronome() {
         return audioContext && audioContext.state === 'running';
     }
 
+    /**
+     * Load and decode the metronome tick audio file.
+     * @returns {Promise<boolean>} True if audio is loaded.
+     */
     async function loadAudio() {
         if (decodedAudioBuffer) return true;
         if (!ensureAudioContext()) return false;
@@ -108,6 +120,10 @@ export function initMetronome() {
         }
     }
 
+    /**
+     * Play the tick sound at a scheduled time.
+     * @param {number} time
+     */
     function playTick(time) {
         if (!audioContext || !decodedAudioBuffer) return;
         const source = audioContext.createBufferSource();
@@ -117,6 +133,9 @@ export function initMetronome() {
     }
 
     // --- Advanced Mode Functions ---
+    /**
+     * Validate and correct advanced mode input values.
+     */
     function validateAndCorrectAdvancedInputs() {
         // Auto-correct invalid values
         const startBpm = Math.max(MIN_BPM, Math.min(MAX_BPM, Math.round(parseFloat(startBpmInput.value) || 60)));
@@ -132,6 +151,10 @@ export function initMetronome() {
         advancedMode.practiceTimeMinutes = practiceTime;
     }
 
+    /**
+     * Calculate the current BPM in advanced mode progression.
+     * @returns {number}
+     */
     function calculateCurrentBpmInProgression() {
         if (!advancedMode.isProgressing) return advancedMode.startBpm;
 
@@ -144,6 +167,9 @@ export function initMetronome() {
         return Math.round(currentBpm);
     }
 
+    /**
+     * Update the advanced mode progress display.
+     */
     function updateProgressDisplay() {
         if (!advancedMode.active) return;
 
@@ -160,6 +186,9 @@ export function initMetronome() {
         progressDisplay.textContent = `${elapsedMinutes}:${elapsedSeconds.toString().padStart(2, '0')} / ${totalMinutes}:${totalSeconds.toString().padStart(2, '0')}`;
     }
 
+    /**
+     * Handle manual changes to the progress slider.
+     */
     function handleProgressSliderChange() {
         if (!advancedMode.active || !advancedMode.isProgressing) return;
 
@@ -172,6 +201,9 @@ export function initMetronome() {
         updateProgressDisplay();
     }
 
+    /**
+     * Check if advanced mode session is complete and handle stop/continue.
+     */
     function checkAdvancedModeCompletion() {
         if (!advancedMode.active || !advancedMode.isProgressing) return;
 
@@ -196,6 +228,9 @@ export function initMetronome() {
         }
     }
 
+    /**
+     * Save advanced mode settings to localStorage.
+     */
     function saveAdvancedSettings() {
         const settings = {
             active: advancedActiveCheckbox.checked,
@@ -210,6 +245,9 @@ export function initMetronome() {
         });
     }
 
+    /**
+     * Load advanced mode settings from localStorage.
+     */
     function loadAdvancedSettings() {
         const defaults = {
             active: false,
@@ -248,12 +286,20 @@ export function initMetronome() {
     }
 
     // --- UI & Logic Functions ---
+    /**
+     * Flash the visual indicator for a tick.
+     */
     function flashIndicator() {
         visualIndicator.classList.add('active');
         setTimeout(() => {
             visualIndicator.classList.remove('active');
         }, 80);
-    } function scheduler() {
+    }
+
+    /**
+     * Schedule and play metronome ticks.
+     */
+    function scheduler() {
         if (!isRunning) {
             console.log("Scheduler called but metronome is not running - stopping scheduler");
             return;
@@ -290,7 +336,12 @@ export function initMetronome() {
         if (isRunning) {
             timerID = window.setTimeout(scheduler, lookahead);
         }
-    } async function startMetronome() {
+    }
+
+    /**
+     * Start the metronome (async for audio context).
+     */
+    async function startMetronome() {
         console.log("startMetronome called. isRunning:", isRunning);
         if (isRunning) return;
 
@@ -327,7 +378,12 @@ export function initMetronome() {
         startStopBtn.textContent = TEXT_STOP;
         startStopBtn.classList.add('stop');
         console.log("Metronome started. isRunning:", isRunning);
-    } function stopMetronome() {
+    }
+
+    /**
+     * Stop the metronome.
+     */
+    function stopMetronome() {
         if (!isRunning) return;
         isRunning = false;
         window.clearTimeout(timerID);
@@ -340,6 +396,10 @@ export function initMetronome() {
         console.log("Metronome stopped. isRunning:", isRunning);
     }
 
+    /**
+     * Update the BPM display and save to localStorage.
+     * @param {number} newBpm
+     */
     function updateTempoDisplay(newBpm) {
         const clampedBpm = Math.max(MIN_BPM, Math.min(MAX_BPM, Math.round(newBpm)));
         currentBpm = clampedBpm;
@@ -352,6 +412,10 @@ export function initMetronome() {
         }
     }
 
+    /**
+     * Change the tempo by a given amount.
+     * @param {number} amount
+     */
     function changeTempo(amount) {
         // Prevent manual tempo changes during advanced mode progression
         if (advancedMode.active && isRunning) {
@@ -360,6 +424,9 @@ export function initMetronome() {
         updateTempoDisplay(currentBpm + amount);
     }
 
+    /**
+     * Toggle visibility of advanced controls.
+     */
     function toggleAdvancedControls() {
         const isHidden = advancedControls.classList.contains('hidden');
         advancedControls.classList.toggle('hidden');

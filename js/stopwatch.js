@@ -1,5 +1,9 @@
 import { createAudioContext, formatTime } from './utils.js';
 
+/**
+ * Initializes the Stopwatch UI, event listeners, and state management.
+ * Handles timing, laps, chime, and keyboard shortcuts.
+ */
 export function initStopwatch() {
     console.log("Initialising Stopwatch...");
     // --- Constants ---
@@ -28,6 +32,10 @@ export function initStopwatch() {
     const lapsList = document.getElementById('stopwatch-lapsList');
     const chimeIntervalInput = document.getElementById('stopwatch-chime-interval');
 
+    /**
+     * Get the current total elapsed time in ms.
+     * @returns {number}
+     */
     function _getCurrentTotalElapsedTime() {
         if (isRunning && startTime) {
             return pausedElapsedTime + (performance.now() - startTime);
@@ -35,6 +43,9 @@ export function initStopwatch() {
         return pausedElapsedTime;
     }
 
+    /**
+     * Start or pause the stopwatch (async for chime).
+     */
     async function handleStartPause() { // Made async
 
         if (!isRunning) {
@@ -89,6 +100,9 @@ export function initStopwatch() {
         }
     }
 
+    /**
+     * Record a lap.
+     */
     function handleLap() {
         if (!isRunning || lapBtn.disabled) return;
         const currentTime = performance.now();
@@ -102,6 +116,9 @@ export function initStopwatch() {
         lapStartTime = currentTime;
     }
 
+    /**
+     * Reset the stopwatch and laps.
+     */
     function handleReset() {
         if (animationFrameId) {
             cancelAnimationFrame(animationFrameId);
@@ -139,6 +156,10 @@ export function initStopwatch() {
     }
 
     // --- Chime Functions ---
+    /**
+     * Ensure the chime AudioContext is created and running.
+     * @returns {Promise<boolean>}
+     */
     async function ensureChimeAudioContext() { // Made async
         if (!chimeAudioContext) {
             try {
@@ -166,6 +187,10 @@ export function initStopwatch() {
         return chimeAudioContext && chimeAudioContext.state === 'running';
     }
 
+    /**
+     * Load and decode the chime audio file.
+     * @returns {Promise<boolean>}
+     */
     async function loadChimeAudio() {
         if (decodedChimeBuffer || isLoadingChime) return true;
         if (!(await ensureChimeAudioContext())) { // Await the context check
@@ -191,6 +216,9 @@ export function initStopwatch() {
         }
     }
 
+    /**
+     * Play the chime sound.
+     */
     function playChime() {
         if (!chimeAudioContext || !decodedChimeBuffer) {
             console.warn("Stopwatch: Chime audio not ready or context missing.");
@@ -209,6 +237,10 @@ export function initStopwatch() {
         }
     }
 
+    /**
+     * Ensure the chime audio is loaded if needed.
+     * @returns {Promise<boolean>}
+     */
     async function ensureChimeAudioLoaded() {
         if (!decodedChimeBuffer && currentChimeIntervalMs > 0) {
             if (!isLoadingChime) {
@@ -217,11 +249,20 @@ export function initStopwatch() {
         }
         return decodedChimeBuffer != null;
     }
+    /**
+     * Calculate the next chime target time.
+     * @param {number} totalElapsedTime
+     * @param {number} intervalMs
+     * @returns {number}
+     */
     function _calculateNextChimeTarget(totalElapsedTime, intervalMs) {
         const intervalsPassed = Math.floor(totalElapsedTime / intervalMs);
         return (intervalsPassed + 1) * intervalMs;
     }
 
+    /**
+     * Trigger the chime and reschedule the next one.
+     */
     function triggerChimeAndReschedule() {
         if (!isRunning || currentChimeIntervalMs <= 0) {
             if (chimeTimerID) clearTimeout(chimeTimerID);
@@ -243,6 +284,9 @@ export function initStopwatch() {
         scheduleNextChime();
     }
 
+    /**
+     * Schedule the next chime.
+     */
     async function scheduleNextChime() {
         if (chimeTimerID) {
             clearTimeout(chimeTimerID);
@@ -277,6 +321,9 @@ export function initStopwatch() {
         }
     }
 
+    /**
+     * Update chime settings and schedule/cancel as needed.
+     */
     function updateChimeSettings() {
         const intervalSeconds = parseFloat(chimeIntervalInput.value); // Renamed for clarity
         const oldChimeIntervalMs = currentChimeIntervalMs;
@@ -299,7 +346,9 @@ export function initStopwatch() {
         }
     }
 
-    // --- Original Functions Modified/Reviewed ---
+    /**
+     * Update the stopwatch display.
+     */
     function updateDisplay() {
         if (!isRunning && pausedElapsedTime === 0) {
             displayElement.textContent = formatTime(0);

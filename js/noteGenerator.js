@@ -1,5 +1,9 @@
 import { shuffleArray } from './utils.js';
 
+/**
+ * Initializes the Note Generator UI and logic.
+ * Handles note shuffling, display, and keyboard shortcuts.
+ */
 export function initNoteGenerator() {
     console.log("Initialising Note Generator...");
     // --- Base Data ---
@@ -9,6 +13,10 @@ export function initNoteGenerator() {
     const generateBtn = document.getElementById('notes-generateBtn');
     const notesGrid = document.getElementById('notes-grid');
 
+    /**
+     * Display a set of notes in the grid.
+     * @param {string[]} notesToShow
+     */
     function displayNotes(notesToShow) {
         notesGrid.innerHTML = ''; // Clear previous notes
         notesToShow.forEach(note => {
@@ -18,6 +26,10 @@ export function initNoteGenerator() {
             notesGrid.appendChild(noteBox);
         });
     }
+
+    /**
+     * Handle the click event to generate and display shuffled notes.
+     */
     function handleGenerateClick() {
         let notesToShuffle = [...baseNotes];
         shuffleArray(notesToShuffle);
