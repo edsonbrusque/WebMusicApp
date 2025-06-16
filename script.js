@@ -6,10 +6,10 @@ import { initAudioPlayer } from './js/audioPlayer.js';
 
 // --- General Page Code ---
 
-document.addEventListener('DOMContentLoaded', () => {
-    logCurrentTime();
+document.addEventListener('DOMContentLoaded', () => {    logCurrentTime();
     initMetronome();
-    initStopwatch();    initNoteGenerator();
+    initStopwatch();
+    initNoteGenerator();
     initAudioPlayer();
 
     // --- Day/Night Mode Toggle ---
