@@ -1,0 +1,995 @@
+/* --- Theme Variables --- */
+:root {
+    --page-background: #eef1f5;
+    --text-primary: #333;
+    --text-secondary: #555;
+    --text-headings: #444;
+    --app-container-background: #fff;
+    --app-container-shadow: rgba(0, 0, 0, 0.08);
+    --border-light: #eee;
+    --border-medium: #ced4da;
+    --border-dark: #ccc;
+
+    --button-default-bg: #eee;
+    --button-default-text: #333;
+    --button-default-hover-bg: #ddd;
+    --button-default-border: #ccc;
+
+    --input-background: #fff;
+    --input-text: #333;
+    --input-border: #ccc;
+
+    --notes-generate-btn-bg: #17a2b8;
+    --notes-generate-btn-text: white;
+    --notes-generate-btn-hover-bg: #138496;
+    --notes-grid-bg: #fdfdfd;
+    --note-box-bg: #e9ecef;
+    --note-box-text: #495057;
+    --note-box-border: #ced4da;
+
+    --metronome-indicator-bg: #ddd;
+    --metronome-indicator-active-bg: #008000;
+    --metronome-startstop-btn-bg: #007bff;
+    --metronome-startstop-btn-text: white;
+    --metronome-startstop-btn-hover-bg: #0056b3;
+    --metronome-startstop-btn-stop-bg: #f44336;
+    --metronome-startstop-btn-stop-hover-bg: #da190b;
+
+    --stopwatch-display-bg: #f8f8f8;
+    --stopwatch-display-text: #333;
+    --stopwatch-laps-list-text: #444;
+    --stopwatch-laps-list-item-border: #ddd;
+    --stopwatch-lap-number-text: #888;
+    --stopwatch-lap-time-text: #666;
+    --stopwatch-startpause-btn-bg: #28a745;
+    --stopwatch-startpause-btn-text: white;
+    --stopwatch-startpause-btn-hover-bg: #218838;
+    --stopwatch-startpause-btn-pause-bg: #ffc107;
+    --stopwatch-startpause-btn-pause-text: #333;
+    --stopwatch-startpause-btn-pause-hover-bg: #e0a800;
+    --stopwatch-lap-btn-bg: #6c757d;
+    --stopwatch-lap-btn-text: white;
+    --stopwatch-lap-btn-hover-bg: #5a6268;
+    --stopwatch-reset-btn-bg: #dc3545;
+    --stopwatch-reset-btn-text: white;
+    --stopwatch-reset-btn-hover-bg: #c82333;
+
+    --theme-switcher-label-color: #555;
+    --theme-switcher-bg: #ccc;
+    --theme-switcher-knob-bg: white;
+    --theme-switcher-knob-shadow: rgba(0, 0, 0, 0.2);
+
+    /* Audio Player Variables */
+    --audio-player-playlist-bg: #f9f9f9;
+    --audio-player-playlist-item-hover-bg: #e9e9e9;
+    --audio-player-playlist-item-playing-bg: #d1eaff;
+    --audio-player-playlist-item-playing-text: #0056b3;
+    --audio-player-button-like-label-bg: #007bff;
+    --audio-player-button-like-label-text: white;
+    --audio-player-button-like-label-hover-bg: #0056b3;
+    --audio-player-progress-thumb-bg: #007bff;
+    --audio-player-progress-track-bg: #ddd;
+    --audio-player-control-button-bg: #6c757d;
+}
+
+body.night-mode {
+    --page-background: #1a1f2c;
+    /* Dark blue-grey */
+    --text-primary: #e0e0e0;
+    /* Light grey for text */
+    --text-secondary: #b0b0b0;
+    /* Slightly darker grey */
+    --text-headings: #f0f0f0;
+    /* Even lighter for headings */
+    --app-container-background: #2c3344;
+    /* Darker container */
+    --app-container-shadow: rgba(0, 0, 0, 0.3);
+    --border-light: #3a4152;
+    /* Darker border */
+    --border-medium: #4a5162;
+    --border-dark: #5a6172;
+
+    --button-default-bg: #3a4152;
+    --button-default-text: #e0e0e0;
+    --button-default-hover-bg: #4a5162;
+    --button-default-border: #5a6172;
+
+    --input-background: #252a37;
+    --input-text: #e0e0e0;
+    --input-border: #4a5162;
+
+    --notes-generate-btn-bg: #1da1f2;
+    /* Brighter blue for night */
+    --notes-generate-btn-text: white;
+    --notes-generate-btn-hover-bg: #0c85d0;
+    --notes-grid-bg: #252a37;
+    --note-box-bg: #3a4152;
+    --note-box-text: #e0e0e0;
+    --note-box-border: #4a5162;
+
+    --metronome-indicator-bg: #3a4152;
+    --metronome-indicator-active-bg: #28a745;
+    /* Green, good contrast */
+    --metronome-startstop-btn-bg: #17a2b8;
+    /* Teal */
+    --metronome-startstop-btn-text: white;
+    --metronome-startstop-btn-hover-bg: #138496;
+    --metronome-startstop-btn-stop-bg: #e74c3c;
+    /* Softer red */
+    --metronome-startstop-btn-stop-hover-bg: #c0392b;
+
+    --stopwatch-display-bg: #252a37;
+    --stopwatch-display-text: #e0e0e0;
+    --stopwatch-laps-list-text: #c0c0c0;
+    --stopwatch-laps-list-item-border: #3a4152;
+    --stopwatch-lap-number-text: #999;
+    --stopwatch-lap-time-text: #aaa;
+    --stopwatch-startpause-btn-bg: #2ecc71;
+    /* Brighter green */
+    --stopwatch-startpause-btn-text: white;
+    --stopwatch-startpause-btn-hover-bg: #27ae60;
+    --stopwatch-startpause-btn-pause-bg: #f39c12;
+    /* Brighter orange */
+    --stopwatch-startpause-btn-pause-text: #1a1f2c;
+    /* Dark text on light button */
+    --stopwatch-startpause-btn-pause-hover-bg: #e67e22;
+    --stopwatch-lap-btn-bg: #7f8c8d;
+    /* Grey */
+    --stopwatch-lap-btn-text: white;
+    --stopwatch-lap-btn-hover-bg: #95a5a6;
+    --stopwatch-reset-btn-bg: #e74c3c;
+    /* Softer red */
+    --stopwatch-reset-btn-text: white;
+    --stopwatch-reset-btn-hover-bg: #c0392b;
+
+    --theme-switcher-label-color: #b0b0b0;
+    --theme-switcher-bg: #555;
+    --theme-switcher-knob-bg: #bbb;
+    --theme-switcher-knob-shadow: rgba(0, 0, 0, 0.4);
+
+    /* Audio Player Variables - Night Mode */
+    --audio-player-playlist-bg: #252a37;
+    --audio-player-playlist-item-hover-bg: #3a4152;
+    --audio-player-playlist-item-playing-bg: #004085;
+    /* Darker blue for playing item */
+    --audio-player-playlist-item-playing-text: #e0e0e0;
+    --audio-player-button-like-label-bg: #17a2b8;
+    /* Teal */
+    --audio-player-button-like-label-text: white;
+    --audio-player-button-like-label-hover-bg: #138496;
+    --audio-player-progress-thumb-bg: #17a2b8;
+    --audio-player-progress-track-bg: #4a5162;
+    --audio-player-control-button-bg: #5a6268;
+}
+
+/* --- General Styles --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--page-background);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1 {
+    margin-top: 0;
+    color: var(--text-headings);
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+h2 {
+    margin-top: 0;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+    font-size: 1.1em;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+button {
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 15px;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- Theme Switcher Styles --- */
+.theme-switcher-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.theme-switcher-label {
+    margin-right: 10px;
+    font-size: 0.9em;
+    color: var(--theme-switcher-label-color);
+    transition: color 0.3s ease;
+}
+
+.theme-switcher-checkbox {
+    appearance: none;
+    width: 40px;
+    height: 20px;
+    background-color: var(--theme-switcher-bg);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.theme-switcher-checkbox::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--theme-switcher-knob-bg);
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 1px 3px var(--theme-switcher-knob-shadow);
+}
+
+.theme-switcher-checkbox:checked::before {
+    transform: translateX(20px);
+}
+
+/* --- Semantic Element Styling --- */
+header {
+    width: 100%;
+    /* Ensure header spans the full available width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center the H1 within the header */
+    position: relative;
+    /* Context for the absolutely positioned theme switcher */
+    margin-bottom: 20px;
+    /* Maintain spacing */
+}
+
+main {
+    width: 100%;
+    /* Ensure main content area spans the full available width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center the app containers within main */
+}
+
+/* --- App Container --- */
+.app-container {
+    background-color: var(--app-container-background);
+    padding: 15px 30px;
+    /* Adjusted padding for consistency */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--app-container-shadow);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+    margin-bottom: 30px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* --- Note Generator Specific Styles --- */
+#notes-generateBtn {
+    padding: 10px 25px;
+    font-size: 1.1em;
+    background-color: var(--notes-generate-btn-bg);
+    color: var(--notes-generate-btn-text);
+    margin-bottom: 5px;
+}
+
+#notes-generateBtn:hover {
+    background-color: var(--notes-generate-btn-hover-bg);
+}
+
+#notes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 15px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    background-color: var(--notes-grid-bg);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#notes-app .note-box {
+    background-color: var(--note-box-bg);
+    border: 1px solid var(--note-box-border);
+    border-radius: 6px;
+    padding: 15px 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--note-box-text);
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    user-select: none;
+    /* Standard */
+    -webkit-user-select: none;
+    /* Safari */
+}
+
+/* --- Metronome Specific Styles --- */
+#metronome-app .controls {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#metronome-app label {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-right: 5px;
+}
+
+#metronome-app input[type="range"] {
+    width: 180px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+#metronome-app input[type="number"] {
+    width: 60px;
+    text-align: center;
+    margin-right: 5px;
+    vertical-align: middle;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-background);
+    color: var(--input-text);
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#metronome-app .tempo-adjust-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#metronome-app .tempo-adjust-buttons button {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    min-width: 40px;
+    border: 1px solid var(--button-default-border);
+    background-color: var(--button-default-bg);
+    color: var(--button-default-text);
+}
+
+#metronome-app .tempo-adjust-buttons button:hover {
+    background-color: var(--button-default-hover-bg);
+}
+
+#metronome-visual-indicator {
+    width: 300px;
+    height: 50px;
+    background-color: var(--metronome-indicator-bg);
+    border-radius: 5px;
+    margin: 15px auto;
+    transition: background-color 0.05s ease-in-out, background-color 0.3s ease;
+    /* Added theme transition */
+}
+
+#metronome-visual-indicator.active {
+    background-color: var(--metronome-indicator-active-bg);
+}
+
+#metronome-startStopBtn {
+    background-color: var(--metronome-startstop-btn-bg);
+    color: var(--metronome-startstop-btn-text);
+    min-width: 100px;
+}
+
+#metronome-startStopBtn:hover:not(:disabled) {
+    background-color: var(--metronome-startstop-btn-hover-bg);
+}
+
+#metronome-startStopBtn.stop {
+    background-color: var(--metronome-startstop-btn-stop-bg);
+}
+
+#metronome-startStopBtn.stop:hover:not(:disabled) {
+    background-color: var(--metronome-startstop-btn-stop-hover-bg);
+}
+
+
+/* --- Stopwatch Specific Styles --- */
+#stopwatch-app #stopwatch-display {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2.8em;
+    color: var(--stopwatch-display-text);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    /* Added some padding */
+    background-color: var(--stopwatch-display-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Styles for Chime Controls */
+#stopwatch-app .stopwatch-chime-controls {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    /* Added more bottom margin */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#stopwatch-app .stopwatch-chime-controls label {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+#stopwatch-app #stopwatch-chime-interval {
+    width: 80px;
+    padding: 6px 8px;
+    font-size: 0.9em;
+    text-align: center;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-background);
+    color: var(--input-text);
+    border-radius: 4px;
+}
+
+
+#stopwatch-app .stopwatch-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+#stopwatch-app .stopwatch-controls button {
+    min-width: 90px;
+}
+
+#stopwatch-startPauseBtn {
+    background-color: var(--stopwatch-startpause-btn-bg);
+    color: var(--stopwatch-startpause-btn-text);
+}
+
+#stopwatch-startPauseBtn:hover:not(:disabled) {
+    background-color: var(--stopwatch-startpause-btn-hover-bg);
+}
+
+#stopwatch-startPauseBtn.pause {
+    background-color: var(--stopwatch-startpause-btn-pause-bg);
+    color: var(--stopwatch-startpause-btn-pause-text);
+}
+
+#stopwatch-startPauseBtn.pause:hover:not(:disabled) {
+    background-color: var(--stopwatch-startpause-btn-pause-hover-bg);
+}
+
+#stopwatch-lapBtn {
+    background-color: var(--stopwatch-lap-btn-bg);
+    color: var(--stopwatch-lap-btn-text);
+}
+
+#stopwatch-lapBtn:hover:not(:disabled) {
+    background-color: var(--stopwatch-lap-btn-hover-bg);
+}
+
+#stopwatch-resetBtn {
+    background-color: var(--stopwatch-reset-btn-bg);
+    color: var(--stopwatch-reset-btn-text);
+}
+
+#stopwatch-resetBtn:hover:not(:disabled) {
+    background-color: var(--stopwatch-reset-btn-hover-bg);
+}
+
+#stopwatch-app .laps-container {
+    margin-top: 20px;
+    max-height: 200px;
+    /* Adjusted max-height */
+    overflow-y: auto;
+    border-top: 1px solid var(--border-light);
+    padding-top: 15px;
+    text-align: left;
+}
+
+#stopwatch-lapsList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1em;
+    color: var(--stopwatch-laps-list-text);
+}
+
+#stopwatch-lapsList li {
+    padding: 6px 10px;
+    border-bottom: 1px dotted var(--stopwatch-laps-list-item-border);
+    display: flex;
+    justify-content: space-between;
+}
+
+#stopwatch-lapsList li:last-child {
+    border-bottom: none;
+}
+
+#stopwatch-lapsList .lap-number {
+    color: var(--stopwatch-lap-number-text);
+    min-width: 40px;
+    display: inline-block;
+}
+
+#stopwatch-lapsList .lap-time {
+    margin-left: 15px;
+    color: var(--stopwatch-lap-time-text);
+}
+
+/* --- Audio Player Specific Styles --- */
+#audio-player-app .audio-player-file-controls {
+    display: flex; /* Align buttons in a row */
+    justify-content: center; /* Center the buttons */
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Space between buttons */
+    margin-bottom: 15px;
+}
+
+#audio-player-app .button-like-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--audio-player-button-like-label-bg);
+    color: var(--audio-player-button-like-label-text);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 1em;
+}
+
+#audio-player-app .button-like-label:hover {
+    background-color: var(--audio-player-button-like-label-hover-bg);
+}
+
+#audio-player-app .audio-player-playlist-container {
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid var(--border-medium);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: var(--audio-player-playlist-bg);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#audio-player-app #audio-player-playlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#audio-player-app #audio-player-playlist li {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: default;
+    /* Default cursor for li, item name will be pointer */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#audio-player-app #audio-player-playlist li:last-child {
+    border-bottom: none;
+}
+
+#audio-player-app #audio-player-playlist li:hover {
+    background-color: var(--audio-player-playlist-item-hover-bg);
+}
+
+#audio-player-app #audio-player-playlist li.playing {
+    background-color: var(--audio-player-playlist-item-playing-bg);
+    color: var(--audio-player-playlist-item-playing-text);
+    font-weight: bold;
+}
+
+#audio-player-app #audio-player-playlist li .track-item-name {
+    flex-grow: 1;
+    margin-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    /* Make track name clickable */
+}
+
+#audio-player-app #audio-player-playlist li .playlist-item-controls button {
+    background: none;
+    border: 1px solid var(--button-default-border);
+    color: var(--text-secondary);
+    padding: 3px 6px;
+    font-size: 0.8em;
+    margin-left: 5px;
+    border-radius: 3px;
+}
+
+#audio-player-app #audio-player-playlist li .playlist-item-controls button:hover:not(:disabled) {
+    background-color: var(--button-default-hover-bg);
+    color: var(--button-default-text);
+}
+
+#audio-player-app #audio-player-playlist li.playing .playlist-item-controls button {
+    border-color: var(--audio-player-playlist-item-playing-text);
+    /* Match text color for visibility */
+    color: var(--audio-player-playlist-item-playing-text);
+}
+
+#audio-player-app .empty-playlist-message {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 20px;
+    font-style: italic;
+}
+
+#audio-player-app .audio-player-track-info,
+#audio-player-app .audio-player-time-info {
+    margin-bottom: 8px;
+    font-size: 1.2em;
+    color: var(-text-secondary);
+}
+
+#audio-player-app #audio-player-combined-track-info {
+    font-weight: bold;
+    color: var(--text-primary);
+    /* font-size is inherited from .audio-player-track-info (0.95em) */
+}
+
+#audio-player-app .audio-player-progress-time-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Space between progress bar and time display */
+    margin-bottom: 15px;
+}
+
+#audio-player-app .audio-player-progress {
+    flex-grow: 1;
+    /* Allow progress bar to take available space */
+    margin-bottom: 0;
+    /* Remove bottom margin as container has it now */
+    cursor: pointer;
+}
+
+#audio-player-app .audio-player-time-info {
+    margin-bottom: 0;
+    /* Remove bottom margin as container has it now */
+    white-space: nowrap;
+    /* Prevent time from wrapping */
+    min-width: 90px;
+    /* Ensure enough space for "00:00 / 00:00" */
+}
+
+#audio-player-app .audio-player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#audio-player-app .audio-player-controls button {
+    padding: 8px 12px;
+    /* Slightly smaller padding for more controls */
+    min-width: 45px;
+    /* Ensure buttons like prev/next are wide enough for icons */
+    background-color: var(--audio-player-control-button-bg);
+    /* Generic control button color */
+    color: var(--button-default-text);
+}
+
+#audio-player-app .audio-player-controls button:hover:not(:disabled) {
+    background-color: var(--button-default-hover-bg);
+}
+
+#audio-player-app .main-controls button {
+    font-size: 2em;
+    /* Increased icon size */
+    padding: 5px 3px 7px 3px;
+    /* Reduced padding to make icon fill more of the button */
+    line-height: 1;
+    /* Improve vertical alignment of the icon */
+    /* min-width: 45px is inherited and might provide a consistent minimum size */
+}
+
+#audio-player-app .secondary-controls label,
+#audio-player-app .loop-controls label {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+#audio-player-app .secondary-controls input[type="range"] {
+    width: 100px;
+    /* Adjust as needed */
+}
+
+#audio-player-app #audio-player-speed-display {
+    min-width: 40px;
+    /* To prevent layout shift */
+    text-align: right;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+#audio-player-app .loop-controls input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+/* --- Audio Player Specific Styles --- */
+/* (Continued - Silence Controls) */
+/* Styles for Silence Controls when inside loop-controls */
+#audio-player-app .loop-controls input[type="number"] {
+    width: 40px;
+    padding: 4px 8px;
+    text-align: center;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-background);
+    color: var(--input-text);
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+#audio-player-app .loop-controls span {
+    /* Style for the "seconds" text */
+    color: var(--text-secondary);
+}
+
+#audio-player-app .loop-controls .silence-label {
+    margin-left: 20px;
+    /* Space from loop playlist checkbox */
+    color: var(--text-secondary);
+    /* Ensure label color is correct */
+}
+
+/* --- Section Toggle Styles --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+    /* Space between header and content */
+}
+
+.section-header h2 {
+    margin-bottom: 0;
+    /* Remove default h2 margin as .section-header handles spacing */
+}
+
+.toggle-section-btn {
+    padding: 5px 10px;
+    font-size: 0.8em;
+    background-color: var(--button-default-bg);
+    color: var(--button-default-text);
+    border: 1px solid var(--button-default-border);
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+    /* Prevent button from shrinking if h2 title is long */
+    margin-left: 10px;
+    /* Space between title and button */
+}
+
+/* --- Utility Styles --- */
+/* General rule to hide spinners from number inputs within app containers */
+.app-container input[type="number"] {
+    -moz-appearance: textfield;
+    /* Firefox */
+}
+
+.app-container input[type="number"]::-webkit-outer-spin-button,
+.app-container input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    /* WebKit browsers (Chrome, Safari, Edge) */
+    margin: 0;
+}
+
+.section-content.hidden {
+    display: none;
+}
+
+.advanced-controls.hidden {
+    display: none;
+}
+
+/* Styles for collapsed sections to use less space */
+.app-container:has(> .section-content.hidden) {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    /* Horizontal padding remains as defined in .app-container */
+}
+
+.section-header:has(+ .section-content.hidden) {
+    margin-bottom: 0;
+    /* Remove bottom margin when content is hidden */
+}
+
+/* --- Metronome Advanced Controls --- */
+.metronome-start-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+#metronome-app .advanced-toggle-btn {
+    position: absolute;
+    left: 0;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    background-color: var(--button-default-bg);
+    color: var(--button-default-text);
+    border: 1px solid var(--button-default-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#metronome-app .advanced-toggle-btn:hover {
+    background-color: var(--button-default-hover-bg);
+}
+
+#metronome-app .advanced-controls {
+    border: 1px solid var(--border-medium);
+    border-radius: 5px;
+    padding: 15px;
+    background-color: var(--input-background);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-top: 15px;
+}
+
+#metronome-app .advanced-controls-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+#metronome-app .advanced-controls-grid label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+#metronome-app .advanced-controls-grid input[type="checkbox"] {
+    margin: 0;
+}
+
+#metronome-app .bpm-input-group,
+#metronome-app .time-input-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#metronome-app .bpm-input-group label,
+#metronome-app .time-input-group label {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin: 0;
+    white-space: nowrap;
+}
+
+#metronome-app .bpm-input-group input[type="number"],
+#metronome-app .time-input-group input[type="number"] {
+    width: 60px;
+    padding: 4px 6px;
+    font-size: 0.9em;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-background);
+    color: var(--input-text);
+    border-radius: 3px;
+}
+
+#metronome-app .time-input-group span {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+#metronome-app .progress-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#metronome-app .progress-container label {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin: 0;
+    white-space: nowrap;
+}
+
+#metronome-app #metronome-progress-slider {
+    flex: 1;
+    min-width: 150px;
+}
+
+#metronome-app #metronome-progress-display {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    min-width: 80px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .metronome-start-section {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        position: static;
+    }
+    
+    #metronome-app .advanced-toggle-btn {
+        position: static;
+        align-self: stretch;
+    }
+    
+    #metronome-app .advanced-controls-grid {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    #metronome-app .progress-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    #metronome-app #metronome-progress-slider {
+        min-width: unset;
+    }
+}

@@ -1,0 +1,24 @@
+# VS Code workspace files
+*.code-workspace
+
+# Backup files
+*.backup
+*.bak
+
+# Node modules (if we ever add them)
+node_modules/
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*~

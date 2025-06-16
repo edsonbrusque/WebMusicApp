@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brusque's Music Study Tools</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Brusque's Music Study Tools</h1>
+    <div class="theme-switcher-container">
+      <label for="day-night-toggle" class="theme-switcher-label">Day Mode</label>
+      <input type="checkbox" id="day-night-toggle" class="theme-switcher-checkbox" aria-label="Toggle Night Mode">
+    </div>
+  </header>
+
+  <main>
+    <article id="notes-app" class="app-container">
+      <div class="section-header">
+        <h2>Random Note Generator</h2>
+        <button class="toggle-section-btn" aria-controls="notes-content-wrapper" aria-expanded="true">Hide</button>
+      </div>
+      <div id="notes-content-wrapper" class="section-content">
+        <button id="notes-generateBtn">Generate 12 Notes (N)</button>
+        <div id="notes-grid" class="notes-grid-container"></div>
+      </div>
+    </article>
+
+    <article id="metronome-app" class="app-container">
+      <div class="section-header">
+        <h2>Metronome</h2>
+        <button class="toggle-section-btn" aria-controls="metronome-content-wrapper" aria-expanded="true">Hide</button>
+      </div>      <div id="metronome-content-wrapper" class="section-content">
+        <div id="metronome-visual-indicator"></div>
+        
+        <div class="controls metronome-controls">
+          <label for="metronome-bpm-slider">Tempo:</label>
+          <input type="range" id="metronome-bpm-slider" min="40" max="240" value="120" />
+          <input type="number" id="metronome-bpm-number" min="40" max="240" value="120" />
+        </div>
+        <div class="tempo-adjust-buttons">
+          <button id="metronome-dec10Btn" title="-10 BPM">-10</button>
+          <button id="metronome-dec5Btn" title="-5 BPM">-5</button>
+          <button id="metronome-dec1Btn" title="-1 BPM">-1</button>
+          <button id="metronome-inc1Btn" title="+1 BPM">+1</button>
+          <button id="metronome-inc5Btn" title="+5 BPM">+5</button>
+          <button id="metronome-inc10Btn" title="+10 BPM">+10</button>
+        </div>
+        
+        <!-- Start button and Advanced button container -->
+        <div class="metronome-start-section">
+          <button id="metronome-advanced-toggle" class="advanced-toggle-btn">Advanced ▼</button>
+          <button id="metronome-startStopBtn">Start (M)</button>
+        </div>
+        
+        <!-- Advanced Controls Section - Now at bottom -->
+        <div id="metronome-advanced-controls" class="advanced-controls hidden">
+          <div class="advanced-controls-grid">
+            <label>
+              <input type="checkbox" id="metronome-advanced-active">
+              Active
+            </label>
+            <label>
+              <input type="checkbox" id="metronome-advanced-stop-at-finish">
+              Stop at finish
+            </label>
+            <div class="bpm-input-group">
+              <label for="metronome-start-bpm">Start BPM:</label>
+              <input type="number" id="metronome-start-bpm" min="40" max="240" value="60">
+            </div>
+            <div class="bpm-input-group">
+              <label for="metronome-finish-bpm">Finish BPM:</label>
+              <input type="number" id="metronome-finish-bpm" min="40" max="240" value="120">
+            </div>
+            <div class="time-input-group">
+              <label for="metronome-practice-time">Practice Time:</label>
+              <input type="number" id="metronome-practice-time" min="0.1" step="0.1" value="5.0">
+              <span>minutes</span>
+            </div>
+          </div>
+          <div class="progress-container">
+            <label for="metronome-progress-slider">Progress:</label>
+            <input type="range" id="metronome-progress-slider" min="0" max="100" value="0">
+            <span id="metronome-progress-display">0:00 / 5:00</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article id="stopwatch-app" class="app-container">
+      <div class="section-header">
+        <h2>Stopwatch</h2>
+        <button class="toggle-section-btn" aria-controls="stopwatch-content-wrapper" aria-expanded="true">Hide</button>
+      </div>
+      <div id="stopwatch-content-wrapper" class="section-content">
+        <div id="stopwatch-display">00:00:00.000</div>
+        <!-- Chime Interval Input -->
+        <div class="stopwatch-chime-controls">
+          <label for="stopwatch-chime-interval">Chime every</label>
+          <input type="number" id="stopwatch-chime-interval" min="0" step="any" placeholder="e.g. 60">
+          <label for="stopwatch-chime-interval">seconds</label>
+        </div>
+        <div class="stopwatch-controls">
+          <button id="stopwatch-startPauseBtn">Start (Space)</button>
+          <button id="stopwatch-lapBtn" disabled>Lap (L)</button>
+          <button id="stopwatch-resetBtn" disabled>Reset (K)</button>
+        </div>
+        <div class="laps-container">
+          <h3>Laps</h3>
+          <ol id="stopwatch-lapsList"></ol>
+        </div>
+      </div>
+    </article>
+
+    <article id="audio-player-app" class="app-container">
+      <div class="section-header">
+        <h2>Audio Player</h2>
+        <button class="toggle-section-btn" aria-controls="audio-player-content-wrapper"
+          aria-expanded="true">Hide</button>
+      </div>
+      <div id="audio-player-content-wrapper" class="section-content">
+        <!-- Track Info (Moved to Top of Content Wrapper) -->
+        <div id="audio-player-track-info-display" class="audio-player-track-info">
+          <span id="audio-player-combined-track-info">Track 0/0: No track loaded</span>
+        </div>
+
+        <!-- Volume and Speed Controls (Moved to Top) -->        <div class="audio-player-controls secondary-controls">
+          <label for="audio-player-volume-slider" title="Volume (W/E)">Volume:</label>
+          <input type="range" id="audio-player-volume-slider" min="-60" max="0" step="1" value="-6">
+          <span id="audio-player-volume-db-display">-6 dB</span>
+          <label for="audio-player-speed-slider" title="Playback Speed (Q/R)">Speed:</label>
+          <input type="range" id="audio-player-speed-slider" min="0.5" max="2" step="0.05" value="1">
+          <span id="audio-player-speed-display">1.0x</span>
+        </div>
+        <div class="audio-player-progress-time-container">
+          <input type="range" id="audio-player-progress-bar" value="0" min="0" max="100" class="audio-player-progress"
+            title="Seek Track">
+          <div id="audio-player-time-info-display" class="audio-player-time-info">
+            <span id="audio-player-current-time">00:00</span> / <span id="audio-player-total-time">00:00</span>
+          </div>
+        </div>
+
+        <!-- Main Playback Controls (Moved to Bottom) -->
+        <div class="audio-player-controls main-controls">
+          <button id="audio-player-prevBtn" title="Previous Track (Z)">⏮️</button>
+          <button id="audio-player-stopBtn" title="Stop (X)">⏹️</button>
+          <button id="audio-player-playPauseBtn" title="Play/Pause (C)">▶️</button>
+          <button id="audio-player-nextBtn" title="Next Track (V)">⏭️</button>
+        </div>
+
+        <div class="audio-player-controls loop-controls">
+          <label><input type="checkbox" id="audio-player-loop-track-toggle"> Loop Track</label>
+          <label><input type="checkbox" id="audio-player-loop-playlist-toggle"> Loop Playlist</label>
+          <!-- Silence Interval Control (Moved inside loop-controls) -->
+          <label for="audio-player-silence-interval" class="silence-label">Silence after track:</label>
+          <!-- Silence Interval Control (Restored to separate div) -->
+          <input type="number" id="audio-player-silence-interval" min="0" step="0.1" value="0">
+          <span>seconds</span>
+        </div>
+
+        <!-- File Input (Moved to Bottom) -->
+        <div class="audio-player-file-controls">
+          <button id="audio-player-clear-playlist-btn" class="button-like-label"
+            title="Clear Entire Playlist (G)">Clear Playlist (G)</button>
+          <label for="audio-player-file-input" class="button-like-label" id="audio-player-add-tracks-label"
+            title="Add Tracks to Playlist (T)">Add Tracks (T)</label>
+          <input type="file" id="audio-player-file-input" multiple accept="audio/*" style="display: none;">
+        </div>
+
+        <!-- Playlist (Moved to Bottom) -->
+        <div class="audio-player-playlist-container">
+          <h3>Playlist</h3>
+          <ul id="audio-player-playlist">
+            <!-- Playlist items will be generated here by JS -->
+          </ul>
+
+        </div>
+        <audio id="audio-player-element" style="display: none;"></audio>
+      </div>
+    </article>
+
+    <article id="about-app" class="app-container">
+      <div class="section-header">
+        <h2>About</h2>
+        <button class="toggle-section-btn" aria-controls="about-content-wrapper" aria-expanded="true">Hide</button>
+      </div>
+      <div id="about-content-wrapper" class="section-content" style="text-align: left;">
+        <h3>Project Overview</h3>
+        <p>
+          Brusque's Music Study Tools is a web-based application designed to provide a suite of tools useful for music study
+          and practice.
+          It aims to offer convenient and accessible utilities for musicians of all levels.
+        </p>
+
+        <h3>Purpose & Motivation</h3>
+        <p>
+          This project was created to consolidate frequently used music practice tools into a single, easy-to-use
+          interface and to explore web audio technologies.
+        </p>
+
+        <h3>Key Features</h3>
+        <ul>
+          <li><strong>Random Note Generator:</strong> Helps with training note recognition, fretboard visualization,
+            scales memorization etc.</li>
+          <li><strong>Metronome:</strong> Provides a steady beat for practice, with adjustable BPM.</li>
+          <li><strong>Stopwatch:</strong> Includes lap functionality and an optional periodic chime.</li>
+          <li><strong>Audio Player:</strong> Allows playback of local audio files with speed control, looping, playlist
+            management, and more.</li>
+          <li><strong>Theme Customization:</strong> Switch between Day and Night modes.</li>
+          <li><strong>Persistent Settings:</strong> Remembers your preferences for volume, speed, loop settings, and
+            section visibility.</li>
+          <li><strong>Keyboard Shortcuts:</strong> Most features are accessible via keyboard for quick operation.</li>
+        </ul>
+
+        <h3>Usage Tips & Keyboard Shortcuts</h3>
+        <p>
+          Each tool is designed to be intuitive. Here are some general tips and specific shortcuts for the Audio Player:
+        </p>
+        <h4>General</h4>
+        <ul>
+          <li>Most button (with the notable exception of Metronome's speed and Audio Player's controls) have its
+            keyboard shortcuts as part of the text for easy memorization.</li>
+          <li>Sections can be collapsed by clicking the "Hide/Show" button in their header.</li>
+        </ul>
+        <h4>Metronome's Keybindings</h4>
+        <ul>
+          <li><strong>M:</strong> Start/Stop the metronome</li>
+          <li><strong>Left Cursor Key:</strong> Reduce speed in 5 BPM</li>
+          <li><strong>Up Cursor Key:</strong> Reduce speed in 1 BPM</li>
+          <li><strong>Down Cursor Key:</strong> Raise speed in 1 BPM</li>
+          <li><strong>Right Cursor Key:</strong> Raise speed in 5 BPM</li>
+        </ul>
+        <h4>Audio Player Keybindings</h4>
+        <p>To reduce clutter, the shortcuts are not shown on the Audio Player itself but you can use the reference
+          below. They keys are arranged in an order that follows the Audio Player's layout.</p>
+        <p>The keys used are the four leftmost letters of each row of the QWERTY keyboard.</p>
+        <p>Q/W/E/R are for the Volume and Speed section.<br>
+          A/S/D/F are for the track position (slider).<br>
+          Z/X/C/V controls the playback controls.</p>
+        <ul>
+          <li><strong>T:</strong> Add Tracks to Playlist</li>
+          <li><strong>W/E:</strong> Adjust Volume (W to decrease, E to increase)</li>
+          <li><strong>Q/R:</strong> Adjust Playback Speed (Q to decrease, R to increase. Hold Shift for finer
+            adjustments)</li>
+          <li><strong>A/S/D/F:</strong> Seek Track (A: -20s, S: -2s, D: +2s, F: +20s)</li>
+          <li><strong>Z:</strong> Previous Track</li>
+          <li><strong>X:</strong> Stop</li>
+          <li><strong>C:</strong> Play/Pause</li>
+          <li><strong>V:</strong> Next Track</li>
+        </ul>
+        <p>
+          For more detailed information on features and keyboard shortcuts for all tools, please refer to the
+          <code>readme.md</code> file.
+        </p>
+        <p>
+          This tool was developed by Edson Brusque with the help of Google's Gemini Code Assist. Most of the code was
+          generated by A.I. with human guidance.
+        </p>
+        <p>
+          You can get in touch with the developer by sending an email to edsonbrusque (at) google (dot) com.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>
