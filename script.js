@@ -4,22 +4,13 @@ import { initStopwatch } from './js/stopwatch.js';
 import { initNoteGenerator } from './js/noteGenerator.js';
 import { initAudioPlayer } from './js/audioPlayer.js';
 
-// Wrap each project's code in an IIFE to prevent scope collisions
-
-// Metronome is now initialized from DOMContentLoaded
-// Stopwatch is now initialized from DOMContentLoaded
-// Note Generator is now initialized from DOMContentLoaded
-// Audio Player is now initialized from DOMContentLoaded
-
-
 // --- General Page Code ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    logCurrentTime(); // Call your existing function
-    initMetronome();  // Initialize the Metronome module
-    initStopwatch();  // Initialize the Stopwatch module
-    initNoteGenerator(); // Initialize the Note Generator module
-    initAudioPlayer(); // Initialize the Audio Player module
+    logCurrentTime();
+    initMetronome();
+    initStopwatch();    initNoteGenerator();
+    initAudioPlayer();
 
     // --- Day/Night Mode Toggle ---
     const themeToggle = document.getElementById('day-night-toggle');
