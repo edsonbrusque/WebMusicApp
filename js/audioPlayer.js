@@ -595,11 +595,11 @@ export function initAudioPlayer() {
                     }
                 }
             } else { // "Loop Track" is NOT active. This covers "Loop Playlist" or no loop at all.
-                     // nextTrack() handles "Loop Playlist" internally or stops if no loops are active.
+                // nextTrack() handles "Loop Playlist" internally or stops if no loops are active.
                 if (currentSilenceIntervalMs > 0) {
                     startSilenceCountdownDisplay(currentSilenceIntervalMs); // Shows "Pausing..."
-                                                                        // When its interval ends, it calls updateCombinedTrackInfo()
-                                                                        // which will revert to the current track's name.
+                    // When its interval ends, it calls updateCombinedTrackInfo()
+                    // which will revert to the current track's name.
                     silenceTimerId = setTimeout(() => {
                         // Then, nextTrack() is called, which will load the new track
                         // and updateCombinedTrackInfo() will be called again with the new track's details.

@@ -33,9 +33,10 @@
       <div class="section-header">
         <h2>Metronome</h2>
         <button class="toggle-section-btn" aria-controls="metronome-content-wrapper" aria-expanded="true">Hide</button>
-      </div>      <div id="metronome-content-wrapper" class="section-content">
+      </div>
+      <div id="metronome-content-wrapper" class="section-content">
         <div id="metronome-visual-indicator"></div>
-        
+
         <div class="controls metronome-controls">
           <label for="metronome-bpm-slider">Tempo:</label>
           <input type="range" id="metronome-bpm-slider" min="40" max="240" value="120" />
@@ -49,13 +50,13 @@
           <button id="metronome-inc5Btn" title="+5 BPM">+5</button>
           <button id="metronome-inc10Btn" title="+10 BPM">+10</button>
         </div>
-        
+
         <!-- Start button and Advanced button container -->
         <div class="metronome-start-section">
           <button id="metronome-advanced-toggle" class="advanced-toggle-btn">Advanced ▼</button>
           <button id="metronome-startStopBtn">Start (M)</button>
         </div>
-        
+
         <!-- Advanced Controls Section - Now at bottom -->
         <div id="metronome-advanced-controls" class="advanced-controls hidden">
           <div class="advanced-controls-grid">
@@ -127,7 +128,8 @@
           <span id="audio-player-combined-track-info">Track 0/0: No track loaded</span>
         </div>
 
-        <!-- Volume and Speed Controls (Moved to Top) -->        <div class="audio-player-controls secondary-controls">
+        <!-- Volume and Speed Controls (Moved to Top) -->
+        <div class="audio-player-controls secondary-controls">
           <label for="audio-player-volume-slider" title="Volume (W/E)">Volume:</label>
           <input type="range" id="audio-player-volume-slider" min="-60" max="0" step="1" value="-6">
           <span id="audio-player-volume-db-display">-6 dB</span>
@@ -163,8 +165,8 @@
 
         <!-- File Input (Moved to Bottom) -->
         <div class="audio-player-file-controls">
-          <button id="audio-player-clear-playlist-btn" class="button-like-label"
-            title="Clear Entire Playlist (G)">Clear Playlist (G)</button>
+          <button id="audio-player-clear-playlist-btn" class="button-like-label" title="Clear Entire Playlist (G)">Clear
+            Playlist (G)</button>
           <label for="audio-player-file-input" class="button-like-label" id="audio-player-add-tracks-label"
             title="Add Tracks to Playlist (T)">Add Tracks (T)</label>
           <input type="file" id="audio-player-file-input" multiple accept="audio/*" style="display: none;">
@@ -190,7 +192,8 @@
       <div id="about-content-wrapper" class="section-content" style="text-align: left;">
         <h3>Project Overview</h3>
         <p>
-          Brusque's Music Study Tools is a web-based application designed to provide a suite of tools useful for music study
+          Brusque's Music Study Tools is a web-based application designed to provide a suite of tools useful for music
+          study
           and practice.
           It aims to offer convenient and accessible utilities for musicians of all levels.
         </p>

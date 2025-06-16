@@ -10,7 +10,7 @@ export function initMetronome() {
     const MAX_BPM = 240;
     const LOCAL_STORAGE_BPM_KEY = 'metronomeBpm';
     const LOCAL_STORAGE_ADVANCED_PREFIX = 'metronomeAdvanced_';
-    
+
     let audioContext = null;
     let decodedAudioBuffer = null;
     const lookahead = 25.0;
@@ -75,9 +75,9 @@ export function initMetronome() {
             try {
                 await audioContext.resume();
                 console.log("Metronome AudioContext resumed. New state:", audioContext.state);
-            } catch (e) { 
-                console.error("Error resuming Metronome AudioContext:", e); 
-                return false; 
+            } catch (e) {
+                console.error("Error resuming Metronome AudioContext:", e);
+                return false;
             }
         }
         return audioContext && audioContext.state === 'running';
@@ -134,39 +134,39 @@ export function initMetronome() {
 
     function calculateCurrentBpmInProgression() {
         if (!advancedMode.isProgressing) return advancedMode.startBpm;
-        
+
         const totalDurationMs = advancedMode.practiceTimeMinutes * 60 * 1000;
         const progress = Math.min(1, advancedMode.sessionElapsedTime / totalDurationMs);
-        
+
         const bpmDifference = advancedMode.finishBpm - advancedMode.startBpm;
         const currentBpm = advancedMode.startBpm + (bpmDifference * progress);
-        
+
         return Math.round(currentBpm);
     }
 
     function updateProgressDisplay() {
         if (!advancedMode.active) return;
-        
+
         const totalDurationMs = advancedMode.practiceTimeMinutes * 60 * 1000;
         const progress = Math.min(100, (advancedMode.sessionElapsedTime / totalDurationMs) * 100);
-        
+
         progressSlider.value = progress;
-        
+
         const elapsedMinutes = Math.floor(advancedMode.sessionElapsedTime / 60000);
         const elapsedSeconds = Math.floor((advancedMode.sessionElapsedTime % 60000) / 1000);
         const totalMinutes = Math.floor(advancedMode.practiceTimeMinutes);
         const totalSeconds = Math.floor((advancedMode.practiceTimeMinutes % 1) * 60);
-        
+
         progressDisplay.textContent = `${elapsedMinutes}:${elapsedSeconds.toString().padStart(2, '0')} / ${totalMinutes}:${totalSeconds.toString().padStart(2, '0')}`;
     }
 
     function handleProgressSliderChange() {
         if (!advancedMode.active || !advancedMode.isProgressing) return;
-        
+
         const newProgress = parseFloat(progressSlider.value) / 100;
         const totalDurationMs = advancedMode.practiceTimeMinutes * 60 * 1000;
         advancedMode.sessionElapsedTime = newProgress * totalDurationMs;
-          // Update current BPM based on new position
+        // Update current BPM based on new position
         const newBpm = calculateCurrentBpmInProgression();
         updateTempoDisplay(newBpm);
         updateProgressDisplay();
@@ -174,9 +174,9 @@ export function initMetronome() {
 
     function checkAdvancedModeCompletion() {
         if (!advancedMode.active || !advancedMode.isProgressing) return;
-        
+
         const totalDurationMs = advancedMode.practiceTimeMinutes * 60 * 1000;
-        
+
         if (advancedMode.sessionElapsedTime >= totalDurationMs) {
             console.log("Advanced mode practice session completed");
             // Practice session completed
@@ -184,7 +184,7 @@ export function initMetronome() {
             advancedMode.sessionElapsedTime = totalDurationMs; // Cap at max
             updateTempoDisplay(advancedMode.finishBpm);
             updateProgressDisplay();
-            
+
             if (advancedMode.stopAtFinish) {
                 console.log("Stopping metronome automatically");
                 stopMetronome();
@@ -204,7 +204,7 @@ export function initMetronome() {
             finishBpm: parseInt(finishBpmInput.value),
             practiceTime: parseFloat(practiceTimeInput.value)
         };
-        
+
         Object.keys(settings).forEach(key => {
             localStorage.setItem(LOCAL_STORAGE_ADVANCED_PREFIX + key, settings[key].toString());
         });
@@ -218,7 +218,7 @@ export function initMetronome() {
             finishBpm: 120,
             practiceTime: 5.0
         };
-        
+
         Object.keys(defaults).forEach(key => {
             const saved = localStorage.getItem(LOCAL_STORAGE_ADVANCED_PREFIX + key);
             if (saved !== null) {
@@ -231,19 +231,19 @@ export function initMetronome() {
                 }
             }
         });
-        
+
         advancedActiveCheckbox.checked = defaults.active;
         stopAtFinishCheckbox.checked = defaults.stopAtFinish;
         startBpmInput.value = defaults.startBpm;
         finishBpmInput.value = defaults.finishBpm;
         practiceTimeInput.value = defaults.practiceTime;
-        
+
         advancedMode.active = defaults.active;
         advancedMode.stopAtFinish = defaults.stopAtFinish;
         advancedMode.startBpm = defaults.startBpm;
         advancedMode.finishBpm = defaults.finishBpm;
         advancedMode.practiceTimeMinutes = defaults.practiceTime;
-        
+
         updateProgressDisplay();
     }
 
@@ -253,44 +253,44 @@ export function initMetronome() {
         setTimeout(() => {
             visualIndicator.classList.remove('active');
         }, 80);
-    }    function scheduler() {
+    } function scheduler() {
         if (!isRunning) {
             console.log("Scheduler called but metronome is not running - stopping scheduler");
             return;
         }
-        
+
         while (nextNoteTime < audioContext.currentTime + scheduleAheadTime) {
             playTick(nextNoteTime);
             const visualDelay = Math.max(0, (nextNoteTime - audioContext.currentTime)) * 1000;
             setTimeout(flashIndicator, visualDelay);
-            
+
             // Update advanced mode progression
             if (advancedMode.active && advancedMode.isProgressing) {
                 const currentTime = performance.now();
                 advancedMode.sessionElapsedTime = currentTime - advancedMode.sessionStartTime;
-                
+
                 const newBpm = calculateCurrentBpmInProgression();
                 if (newBpm !== currentBpm) {
                     updateTempoDisplay(newBpm);
                 }
                 updateProgressDisplay();
                 checkAdvancedModeCompletion();
-                
+
                 // If checkAdvancedModeCompletion stopped the metronome, break out
                 if (!isRunning) {
                     console.log("Metronome was stopped by advanced mode completion");
                     return;
                 }
             }
-            
+
             const secondsPerBeat = 60.0 / currentBpm;
             nextNoteTime += secondsPerBeat;
         }
-        
+
         if (isRunning) {
             timerID = window.setTimeout(scheduler, lookahead);
         }
-    }async function startMetronome() {
+    } async function startMetronome() {
         console.log("startMetronome called. isRunning:", isRunning);
         if (isRunning) return;
 
@@ -303,7 +303,7 @@ export function initMetronome() {
 
         const contextReady = await ensureAudioContext();
         if (!contextReady) return;
-        
+
         const audioFileReady = await loadAudio();
         if (!audioFileReady) {
             console.warn("Metronome audio file not loaded.");
@@ -315,7 +315,7 @@ export function initMetronome() {
             validateAndCorrectAdvancedInputs();
             advancedMode.sessionStartTime = performance.now() - advancedMode.sessionElapsedTime;
             advancedMode.isProgressing = true;
-            
+
             const initialBpm = calculateCurrentBpmInProgression();
             updateTempoDisplay(initialBpm);
             console.log("Advanced mode started. Start BPM:", advancedMode.startBpm, "Finish BPM:", advancedMode.finishBpm, "Time:", advancedMode.practiceTimeMinutes, "min");
@@ -327,14 +327,14 @@ export function initMetronome() {
         startStopBtn.textContent = TEXT_STOP;
         startStopBtn.classList.add('stop');
         console.log("Metronome started. isRunning:", isRunning);
-    }function stopMetronome() {
+    } function stopMetronome() {
         if (!isRunning) return;
         isRunning = false;
         window.clearTimeout(timerID);
         visualIndicator.classList.remove('active');
         startStopBtn.textContent = TEXT_START;
         startStopBtn.classList.remove('stop');
-        
+
         // Advanced mode remains in its current state when stopped
         // This allows resuming from the current position
         console.log("Metronome stopped. isRunning:", isRunning);
@@ -345,7 +345,7 @@ export function initMetronome() {
         currentBpm = clampedBpm;
         bpmSlider.value = currentBpm;
         bpmNumberInput.value = currentBpm;
-        
+
         // Only save to localStorage if not in advanced mode progression
         if (!advancedMode.active || !advancedMode.isProgressing) {
             localStorage.setItem(LOCAL_STORAGE_BPM_KEY, currentBpm.toString());
@@ -364,7 +364,7 @@ export function initMetronome() {
         const isHidden = advancedControls.classList.contains('hidden');
         advancedControls.classList.toggle('hidden');
         advancedToggleBtn.textContent = isHidden ? 'Advanced ▲' : 'Advanced ▼';
-        
+
         // Save visibility state
         localStorage.setItem(LOCAL_STORAGE_ADVANCED_PREFIX + 'visible', (!isHidden).toString());
     }
@@ -372,8 +372,8 @@ export function initMetronome() {
     // --- Event Listeners ---
     if (startStopBtn && bpmSlider && bpmNumberInput && visualIndicator &&
         dec10Btn && dec5Btn && dec1Btn && inc1Btn && inc5Btn && inc10Btn &&
-        advancedToggleBtn && advancedControls && advancedActiveCheckbox && 
-        stopAtFinishCheckbox && startBpmInput && finishBpmInput && 
+        advancedToggleBtn && advancedControls && advancedActiveCheckbox &&
+        stopAtFinishCheckbox && startBpmInput && finishBpmInput &&
         practiceTimeInput && progressSlider && progressDisplay) {        // Existing event listeners
         startStopBtn.addEventListener('click', () => {
             console.log("Start/Stop button clicked. isRunning:", isRunning);
@@ -388,13 +388,13 @@ export function initMetronome() {
             if (advancedMode.active && isRunning) return; // Prevent changes during progression
             updateTempoDisplay(parseInt(bpmSlider.value, 10));
         });
-        
+
         bpmNumberInput.addEventListener('input', () => {
             if (advancedMode.active && isRunning) return; // Prevent changes during progression
             const val = parseInt(bpmNumberInput.value, 10);
             if (!isNaN(val)) updateTempoDisplay(val);
         });
-        
+
         bpmNumberInput.addEventListener('change', () => {
             if (isNaN(parseInt(bpmNumberInput.value, 10))) bpmNumberInput.value = currentBpm;
         });
@@ -408,7 +408,7 @@ export function initMetronome() {
 
         // Advanced mode event listeners
         advancedToggleBtn.addEventListener('click', toggleAdvancedControls);
-        
+
         advancedActiveCheckbox.addEventListener('change', () => {
             if (isRunning) {
                 alert("Please stop the metronome before changing Advanced mode.");
@@ -416,7 +416,7 @@ export function initMetronome() {
                 return;
             }
             advancedMode.active = advancedActiveCheckbox.checked;
-            
+
             if (advancedMode.active) {
                 validateAndCorrectAdvancedInputs();
                 // Reset progression state
@@ -424,7 +424,7 @@ export function initMetronome() {
                 advancedMode.isProgressing = false;
                 updateTempoDisplay(advancedMode.startBpm);
             }
-            
+
             updateProgressDisplay();
             saveAdvancedSettings();
         });
@@ -437,14 +437,14 @@ export function initMetronome() {
         [startBpmInput, finishBpmInput, practiceTimeInput].forEach(input => {
             input.addEventListener('change', () => {
                 validateAndCorrectAdvancedInputs();
-                
+
                 if (advancedMode.active && !isRunning) {
                     // Reset progression if settings changed while stopped
                     advancedMode.sessionElapsedTime = 0;
                     advancedMode.isProgressing = false;
                     updateTempoDisplay(advancedMode.startBpm);
                 }
-                
+
                 updateProgressDisplay();
                 saveAdvancedSettings();
             });
@@ -454,7 +454,7 @@ export function initMetronome() {
 
         // Initialize
         loadAdvancedSettings();
-        
+
         // Load visibility state
         const savedVisibility = localStorage.getItem(LOCAL_STORAGE_ADVANCED_PREFIX + 'visible');
         if (savedVisibility === 'true') {
@@ -463,9 +463,9 @@ export function initMetronome() {
         }
 
         const savedBpm = localStorage.getItem(LOCAL_STORAGE_BPM_KEY);
-        const initialBpm = savedBpm !== null && !isNaN(parseInt(savedBpm, 10)) ? 
+        const initialBpm = savedBpm !== null && !isNaN(parseInt(savedBpm, 10)) ?
             parseInt(savedBpm, 10) : parseInt(bpmSlider.value, 10);
-        
+
         if (advancedMode.active) {
             updateTempoDisplay(advancedMode.startBpm);
         } else {
@@ -485,7 +485,7 @@ export function initMetronome() {
         if (activeElement && (activeElement.tagName === 'INPUT' && activeElement.type !== 'range' && activeElement.type !== 'checkbox' || activeElement.tagName === 'TEXTAREA' || activeElement.tagName === 'SELECT')) {
             if (activeElement === bpmNumberInput && event.key.startsWith('Arrow')) return;
         }
-        
+
         let relevantKeyPressed = false;
         const keyUpper = event.key.toUpperCase();
         switch (keyUpper) {
