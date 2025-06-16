@@ -671,7 +671,23 @@ export function initAudioPlayer() {
 
         switch (keyUpper) {
             case 'T': addTracksLabel.click(); relevantKeyPressed = true; break; // Changed from P to T
-            case 'Q': // Decrement speed by 0.05
+            case 'Q': // Decrement volume by ~3dB
+                {
+                    const currentLin = audioElement.volume;
+                    const newLin = Math.max(0, currentLin / Math.pow(10, 3 / 20));
+                    setAudioVolume(newLin);
+                    relevantKeyPressed = true;
+                    break;
+                }
+            case 'W': // Increment volume by ~3dB
+                {
+                    const currentLin = audioElement.volume;
+                    const newLin = Math.min(1, currentLin * Math.pow(10, 3 / 20));
+                    setAudioVolume(newLin);
+                    relevantKeyPressed = true;
+                    break;
+                }
+            case 'E': // Decrement speed by 0.05
                 if (currentTrack) {
                     if (currentSpeedMode === 'bpm') {
                         step = event.shiftKey ? -1 : -5;
@@ -699,24 +715,6 @@ export function initAudioPlayer() {
                     relevantKeyPressed = true;
                 }
                 break;
-            case 'W': // Decrement volume by ~3dB
-                {
-                    const currentLin = audioElement.volume;
-                    const newLin = Math.max(0, currentLin / Math.pow(10, 3 / 20));
-                    // volumeSlider.value = newLin; // This was incorrect, slider expects dB
-                    setAudioVolume(newLin); // This will update the slider correctly
-                    relevantKeyPressed = true;
-                    break;
-                }
-            case 'E': // Increment volume by ~3dB
-                {
-                    const currentLin = audioElement.volume;
-                    const newLin = Math.min(1, currentLin * Math.pow(10, 3 / 20));
-                    // volumeSlider.value = newLin; // This was incorrect, slider expects dB
-                    setAudioVolume(newLin); // This will update the slider correctly
-                    relevantKeyPressed = true;
-                    break;
-                }
             case 'A': audioElement.currentTime = Math.max(0, audioElement.currentTime - 20); relevantKeyPressed = true; break;
             case 'S': audioElement.currentTime = Math.max(0, audioElement.currentTime - 2); relevantKeyPressed = true; break;
             case 'D': if (audioElement.duration) audioElement.currentTime = Math.min(audioElement.duration, audioElement.currentTime + 2); relevantKeyPressed = true; break;
