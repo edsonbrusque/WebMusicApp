@@ -166,12 +166,13 @@ export function initMetronome() {
         const newProgress = parseFloat(progressSlider.value) / 100;
         const totalDurationMs = advancedMode.practiceTimeMinutes * 60 * 1000;
         advancedMode.sessionElapsedTime = newProgress * totalDurationMs;
-        
-        // Update current BPM based on new position
+          // Update current BPM based on new position
         const newBpm = calculateCurrentBpmInProgression();
         updateTempoDisplay(newBpm);
         updateProgressDisplay();
-    }    function checkAdvancedModeCompletion() {
+    }
+
+    function checkAdvancedModeCompletion() {
         if (!advancedMode.active || !advancedMode.isProgressing) return;
         
         const totalDurationMs = advancedMode.practiceTimeMinutes * 60 * 1000;

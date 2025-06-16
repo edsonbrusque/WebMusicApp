@@ -1,4 +1,4 @@
-import { createAudioContext, formatTime, formatAudioTime, shuffleArray, logCurrentTime, MIN_DB, MAX_DB, linearToDb, dbToLinear } from './js/utils.js';
+import { logCurrentTime } from './js/utils.js';
 import { initMetronome } from './js/metronome.js';
 import { initStopwatch } from './js/stopwatch.js';
 import { initNoteGenerator } from './js/noteGenerator.js';
@@ -6,7 +6,8 @@ import { initAudioPlayer } from './js/audioPlayer.js';
 
 // --- General Page Code ---
 
-document.addEventListener('DOMContentLoaded', () => {    logCurrentTime();
+document.addEventListener('DOMContentLoaded', () => {
+    logCurrentTime();
     initMetronome();
     initStopwatch();
     initNoteGenerator();
