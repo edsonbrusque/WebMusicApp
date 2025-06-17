@@ -135,38 +135,61 @@ export function initAudioPlayer() {
     }
 
     /**
+     * Compute a SHA-256 hash for a File object and its name, return as hex string.
+     * @param {File} file
+     * @returns {Promise<string>} Hex string hash
+     */
+    async function getFileHash(file) {
+        const arrayBuffer = await file.arrayBuffer();
+        // Combine file content and filename for hashing
+        const encoder = new TextEncoder();
+        const nameBuffer = encoder.encode(file.name);
+        // Concatenate buffers
+        const combined = new Uint8Array(arrayBuffer.byteLength + nameBuffer.byteLength);
+        combined.set(new Uint8Array(arrayBuffer), 0);
+        combined.set(nameBuffer, arrayBuffer.byteLength);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', combined.buffer);
+        return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    /**
      * Add new tracks to the playlist from file input.
      * @param {Event} event
      */
-    function handleFileSelect(event) {
+    async function handleFileSelect(event) {
         const files = Array.from(event.target.files);
-        const newTracks = files.map(file => {
+        // Compute hashes for all files in parallel
+        const hashes = await Promise.all(files.map(getFileHash));
+        const newTracks = files.map((file, i) => {
+            const hash = hashes[i];
             const originalBPM = parseBPMFromName(file.name);
-            const trackStorageKey = LOCAL_STORAGE_TRACK_SPEED_PREFIX + file.name;
+            const trackStorageKey = LOCAL_STORAGE_TRACK_SPEED_PREFIX + hash;
             const savedUserSpeedString = localStorage.getItem(trackStorageKey);
             let userSetSpeed;
 
             if (savedUserSpeedString !== null) {
                 const savedSpeed = parseFloat(savedUserSpeedString);
                 if (!isNaN(savedSpeed)) {
-                    if (originalBPM) { // If it's a BPM track
-                        // Ensure saved speed is within BPM range, otherwise default to originalBPM
+                    if (originalBPM) {
                         userSetSpeed = (savedSpeed >= BPM_SLIDER_MIN && savedSpeed <= BPM_SLIDER_MAX) ? savedSpeed : originalBPM;
-                    } else { // If it's a multiplier track
-                        // Ensure saved speed is within multiplier range, otherwise default to 1.0x
+                    } else {
                         userSetSpeed = (savedSpeed >= MULTIPLIER_SLIDER_MIN && savedSpeed <= MULTIPLIER_SLIDER_MAX) ? savedSpeed : 1.0;
                     }
-                } else { // Invalid saved string, fallback
+                } else {
                     userSetSpeed = originalBPM ? originalBPM : 1.0;
                 }
-            } else { // No saved speed for this track, use default
+            } else {
                 userSetSpeed = originalBPM ? originalBPM : 1.0;
             }
 
             return {
-                file: file, name: file.name, url: URL.createObjectURL(file), duration: 0, // Will be updated on loadedmetadata
+                file: file,
+                name: file.name,
+                url: URL.createObjectURL(file),
+                duration: 0, // Will be updated on loadedmetadata
                 originalBPM: originalBPM,
-                userSetSpeed: userSetSpeed
+                userSetSpeed: userSetSpeed,
+                hash: hash // Store hash for later use
             };
         });
         playlist.push(...newTracks);
@@ -481,8 +504,8 @@ export function initAudioPlayer() {
         }
 
         // Save the specific track's userSetSpeed regardless of mode
-        if (track && track.name) { // track.name should always exist here
-            const trackStorageKey = LOCAL_STORAGE_TRACK_SPEED_PREFIX + track.name;
+        if (track && track.hash) {
+            const trackStorageKey = LOCAL_STORAGE_TRACK_SPEED_PREFIX + track.hash;
             localStorage.setItem(trackStorageKey, track.userSetSpeed.toString());
         }
         audioElement.preservesPitch = true; // Attempt to preserve pitch
